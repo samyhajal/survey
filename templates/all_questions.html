@@ -1,0 +1,12 @@
+<h1> All questions </h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<ul>
+{% for q in questions %}
+    <li>{{ q.qu_text }} -- {{ q.type }} -- <a href="{% url 'edit' q.qu_id %}">edit</a> -- <a href="{% url 'delete' q.qu_id %}">delete</a></li>
+{% endfor %}
+</ul>
+
+<a href='question'> another one </a>
+<script src="scripts/main.js"></script>

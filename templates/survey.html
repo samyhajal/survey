@@ -1,0 +1,21 @@
+<h1> All questions </h1>
+
+<form action="{% url 'submit'  %}" method="post">
+{% csrf_token %}
+    <ul>
+    {% for q in questions %}
+        <li>{{ q.qu_text }} </br>
+            {% if q.type == "text" %}
+                <input type="text" name="{{ q.qu_id }}">
+            {% elif q.type == "rating" %}
+                <input type="radio" name="{{ q.qu_id }}" value="1"> 1<br>
+                <input type="radio" name="{{ q.qu_id }}" value="2"> 2<br>
+                <input type="radio" name="{{ q.qu_id }}" value="3"> 3<br>
+                <input type="radio" name="{{ q.qu_id }}" value="4"> 4<br>
+                <input type="radio" name="{{ q.qu_id }}" value="5"> 5<br>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+<input type="submit" value="Submit" />
+</form>

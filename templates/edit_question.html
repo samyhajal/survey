@@ -1,0 +1,13 @@
+<h1> Edit question </h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'create'  %}" method="post">
+{% csrf_token %}
+    <select name="type">
+      <option value="rating">Rating</option>
+      <option value="text">Text Answer</option>
+    </select>
+    <input type="text" name="text">
+<input type="submit" value="create" />
+</form>
