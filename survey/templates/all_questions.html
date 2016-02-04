@@ -1,12 +1,21 @@
+{% load static %}
 <h1> All questions </h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <ul>
 {% for q in questions %}
-    <li>{{ q.qu_text }} -- {{ q.type }} -- <a href="{% url 'edit' q.qu_id %}">edit</a> -- <a href="{% url 'delete' q.qu_id %}">delete</a></li>
+    <li id="{{ q.qu_id }}">
+        <input type="text" value="{{ q.qu_text }}" disabled> -- {{ q.type }} --
+        <button class="cancel" style="display:none"> cancel </button>
+        <button class="save" style="display:none"> save </button>
+        <button class="edit"> edit </button>
+        <button class="delete"> delete </button>
+    </li>
 {% endfor %}
 </ul>
-
+    
 <a href='question'> another one </a>
-<script src="scripts/main.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'scripts/main.js' %}"></script>
+

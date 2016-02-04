@@ -2,9 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db import Error
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 import os
 from survey.models import Question, Answer, AnswerSet
 import sys
+import json
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -24,13 +27,19 @@ def create(request):
     question.save()
     return HttpResponseRedirect(reverse('all_questions', args=()))
 
+@csrf_exempt
 def delete(request, question_id):
+    json.loads(request.body)
     question = Question.objects.get(qu_id=question_id)
     question.delete()
     return HttpResponseRedirect(reverse('all_questions', args=()))
 
-def edit(request, question_id):
+@csrf_exempt
+def update(request, question_id):
+    post = json.loads(request.body)
     question = Question.objects.get(qu_id=question_id)
+    question.qu_text = post['qu_text']
+    question.save()
     return HttpResponseRedirect(reverse('all_questions', args=()))
 
 def survey(request):
@@ -47,12 +56,9 @@ def submit(request):
         try:
             qu_id = int(key)
             if post[key] != '':
-                print(key, post[key])
                 question = Question.objects.get(qu_id=qu_id)
-                print(question)
                 ans = Answer(qu_id=question, value=post[key], answer_set=answer_set)
                 ans.save()
-                print('okay')
         except ValueError:
             continue
     return HttpResponseRedirect(reverse('survey', args=()))
